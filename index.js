@@ -1,22 +1,59 @@
-const { fifaData } = require('./fifa.js')
+/* eslint-disable no-empty */
+/* eslint-disable no-unused-vars */
+console.log("WORKING BEFORE REQUIRE");
 
+const { fifaData } = require('./fifa.js') //this breaks on the web  - only works with node? ASK ABOUT THIS
+
+console.log("WORKING AFTER REQUIRE");
 // ⚽️ M  V P ⚽️ //
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 1: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Practice accessing data by console.log-ing the following pieces of data note, you may want to filter the data first 😉*/
-fifaData.filter(function(item){
-    return item.Year === 2014;
-})
+const all2014 = fifaData.filter(function(item){
+    return (item.Year === 2014); //&& (item.Stage == 'Final'));
+}, 0);
+// console.log("this one!!!! - " + all2014.City);
+
 //(a) Home Team name for 2014 world cup final
 
+//TWO WAYS TO DO THIS
+
+//method a: 
+const finalHomeName = all2014.filter(function(item){
+    if (item.Stage === 'Final'){
+        console.log(`2014 Final Home Team: ` + item['Home Team Name']);
+        return item;
+    }
+})
+//method b:
+const theFinal = all2014.filter(function(item){
+    return item.Stage === 'Final';
+})
+console.log(`2014 Final Home Team: ` + theFinal[0]["Home Team Name"]);
+
+const finalGame = theFinal[0];
+//console.log(finalGame);
+
+//console.log(theFinal);
+// console.log("NO WAY: " + finalHomeName[0].city);
+
+
 //(b) Away Team name for 2014 world cup final
-
+console.log(`2014 Final Away Team: ` + finalGame["Away Team Name"]);
 //(c) Home Team goals for 2014 world cup final
-
+console.log(`2014 Final Home Goals: ${finalGame['Home Team Goals']}`);
 //(d) Away Team goals for 2014 world cup final
-
+console.log(`Final Away Goals: ${finalGame['Away Team Goals']}`);
 //(e) Winner of 2014 world cup final */
-
+if (finalGame['Away Team Goals'] > finalGame['Home Team Goals']){
+    console.log(`winner: ${finalGame['Away Team Name']}`);
+}
+else if (finalGame['Away Team Goals'] < finalGame['Home Team Goals']){
+    console.log(`winner: ${finalGame['Home Team Name']}`);
+}
+else {
+    console.log(`it was a tie`);
+}
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 2: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
 Use getFinals to do the following:
@@ -26,10 +63,12 @@ Use getFinals to do the following:
 hint - you should be looking at the stage key inside of the objects
 */
 
-function getFinals(/* code here */) {
-   /* code here */
+function getFinals(fifaData) {
+   const madeIt = fifaData.filter(x => x.Stage === 'Final');
+//    console.log(madeIt);
+   return madeIt;
 }
-
+// console.log(getFinals(fifaData));
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 3: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -38,11 +77,11 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function getFinals from task 2 
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(/* code here */) {
-    /* code here */
+function getYears(arr, getFinalsCB) {
+    return getFinalsCB(arr).map(x => x.Year);
 }
 
-
+console.log(getYears(fifaData, getFinals));
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 4: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Use the higher-order function getWinners to do the following:  
@@ -51,8 +90,9 @@ Use the higher-order function getWinners to do the following:
 3. Determines the winner (home or away) of each `finals` game. 
 4. Returns the names of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
+function getWinners(arr, getFinalsCB) {
+    winners = [];
+    
 }
 
 
