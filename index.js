@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* eslint-disable no-empty */
 /* eslint-disable no-unused-vars */
 console.log("WORKING BEFORE REQUIRE");
@@ -91,10 +92,27 @@ Use the higher-order function getWinners to do the following:
 4. Returns the names of all winning countries in an array called `winners` */ 
 
 function getWinners(arr, getFinalsCB) {
-    winners = [];
-    
+    // debugger;
+    function isWinner(x){
+        if ((x['Home Team Goals']) > (x['Away Team Goals'])){
+            return x['Home Team Name'];
+        }
+        else if (x['Home Team Goals'] < x['Away Team Goals']){
+            return x['Away Team Name'];
+        }
+        else{
+            let tieBreaker = x['Win conditions'];
+            // console.log(tieBreaker);
+            tieBreaker = tieBreaker.substr(0, tieBreaker.indexOf(" "));
+            // console.log(tieBreaker);
+            return tieBreaker; //this is the problem. can't be undefined, can't be "tied" 94, 06
+        }
+    }
+    const winners = getFinalsCB(arr).map(isWinner);
+    // console.log(winners);
+    return winners;
 }
-
+// console.log(getWinners(fifaData, getFinals));
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 5: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
@@ -107,7 +125,7 @@ Use the higher-order function getWinnersByYear to do the following:
 hint: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
+function getWinnersByYear(arr, getYearsCB, getWinnersCB) {
     /* code here */
 }
 
